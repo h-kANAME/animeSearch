@@ -43,33 +43,37 @@ export default class ApiStates extends React.Component {
           source={{ uri: "https://static.wikia.nocookie.net/tensei-shitara-slime-datta-ken/images/3/34/Rimuru_Slime_Anime.png/revision/latest?cb=20180922214304" }}
         />
 
-        <Text style={styles.labelAuthor}>Author: {this.state.data['Author']}</Text>
-        <PrintLine />
-
         {/* <View> */}
         {/* <SafeAreaView > */}
+        {/* <PrintLine /> */}
+        <Text style={styles.title}>Anime Search</Text>
         <ScrollView style={styles.scrollView}>
-          <Text>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-          </Text>
+          <ScrollView>
+            <Text style={styles.labelAuthor}>Author: {this.state.data['Author']}</Text>
+            <Text style={styles.labelAuthor}>Author: {this.state.data['Author']}</Text>
+            <Text style={styles.labelAuthor}>Author: {this.state.data['Author']}</Text>
+            <Text style={styles.labelAuthor}>Author: {this.state.data['Author']}</Text>
+            <Text style={styles.labelAuthor}>Author: {this.state.data['Author']}</Text>
+            <Text style={styles.labelAuthor}>Author: {this.state.data['Author']}</Text>
+            <Text style={styles.labelAuthor}>Author: {this.state.data['Author']}</Text>
+          </ScrollView>
         </ScrollView>
         {/* </SafeAreaView> */}
         {/* </View> */}
 
         <View>
           <SafeAreaView style={styles.containerTwo}>
-            <Text style={styles.title}>Anime Search</Text>
+            <View style={styles.separator}>
+            </View>
+            <Text style={styles.titleSubtitle}> Esperando nueva busqueda </Text>
             <View style={styles.separator}>
             </View>
             <TextInput
               style={styles.inputSearch}
               placeholder="Ingrese el Anime que desea buscar"
             />
-
             <View style={styles.separator}>
             </View>
-
             <Button title="Buscar"
               color="dodgerblue"
               onPress={() => Alert.alert('El boton funciona')}
@@ -77,8 +81,6 @@ export default class ApiStates extends React.Component {
           </SafeAreaView>
         </View>
       </View>
-
-
     );
   }
 }
@@ -96,13 +98,21 @@ const styles = StyleSheet.create({
   title: {
     textAlign: 'center',
     color: 'yellowgreen',
-    marginVertical: 0,
+    marginTop: -55,
     fontSize: 45,
     fontWeight: "bold",
   },
+  titleSubtitle: {
+    fontSize: 27,
+    color: 'yellowgreen',
+    textAlign: 'center',
+  },
   labelAuthor: {
-    marginTop: 0,
-    color: 'black',
+    marginTop: 10,
+    color: 'white',
+    fontSize: 25,
+    marginLeft: 10,
+    textAlign: 'center',
   },
   inputSearch: {
     // margin: 12,
@@ -119,15 +129,16 @@ const styles = StyleSheet.create({
     borderBottomWidth: StyleSheet.hairlineWidth,
   },
   imageDinamic: {
-
-    width: 400,
-    height: 400,
+    width: 350,
+    height: 350,
+    marginTop: -10,
   },
   scrollView: {
-    backgroundColor: 'white',
-    marginHorizontal: 22,
+    backgroundColor: 'black',
+    marginHorizontal: 50,
     marginBottom: 20,
-    marginTop: -100,
+    marginTop: 10,
+    width: 350,
   },
 
 });
