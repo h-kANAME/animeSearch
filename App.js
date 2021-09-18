@@ -1,144 +1,106 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, View, Alert, Button, Image, SafeAreaView, TextInput, ScrollView } from 'react-native';
-import * as ImagePicker from 'expo-image-picker';
+import { StyleSheet, Text, View, Platform, SafeAreaView, ScrollView } from 'react-native';
+import { Avatar, Button, Card, Title, Paragraph, Appbar, TextInput, Divider, TouchableOpacity } from 'react-native-paper';
+import MaterialCommunityIconsIcon from "react-native-vector-icons/MaterialCommunityIcons";
+import Api from './components/Api';
+
+export default function App() {
+  const LeftContent = props => <Avatar.Icon {...props} icon="assets/adaptative-icon.png" />
+  const MORE_ICON = Platform.OS === 'ios' ? 'dots-horizontal' : 'dots-vertical'; //Option header
+  const [text, setText] = React.useState(''); //Input
 
 
-const PrintLine = () => (
-  <View style={styles.separator} />
-); //Salto de linea
 
-export default class ApiStates extends React.Component {
+  return (
 
-  state = {
-    data: ''
-  }
+    <View style={styles.container}>
+      {/* <StatusBar style="auto" /> */}
+      <StatusBar backgroundColor="white" />
+      <View style={styles.containerInfo}>
+        <Appbar.Header>
+          <Appbar.Content title="Anime Search" subtitle={'Created by KYZ'} />
+          {/* <Appbar.Action icon="magnify" onPress={() => { }} /> */}
+          <Appbar.Action icon={MORE_ICON} onPress={() => { }} />
+        </Appbar.Header>
 
-
-  componentDidMount = () => {
-    fetch('https://api.jikan.moe/v3', {
-      method: 'GET'
-    })
-      .then((response) => response.json())
-      .then((responseJason) => {
-        console.log(responseJason);
-        this.setState({
-          data: responseJason
-        })
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }
-
-  render() {
-
-    return (
-
-
-      <View style={styles.container}>
-        <StatusBar style="auto" />
-        <Image
-          style={styles.imageDinamic}
-          source={{ uri: "https://static.wikia.nocookie.net/tensei-shitara-slime-datta-ken/images/3/34/Rimuru_Slime_Anime.png/revision/latest?cb=20180922214304" }}
-        />
-
-        {/* <View> */}
-        {/* <SafeAreaView > */}
-        {/* <PrintLine /> */}
-        <Text style={styles.title}>Anime Search</Text>
-        <ScrollView style={styles.scrollView}>
-          <ScrollView>
-            <Text style={styles.labelAuthor}>Author: {this.state.data['Author']}</Text>
-            <Text style={styles.labelAuthor}>Author: {this.state.data['Author']}</Text>
-            <Text style={styles.labelAuthor}>Author: {this.state.data['Author']}</Text>
-            <Text style={styles.labelAuthor}>Author: {this.state.data['Author']}</Text>
-            <Text style={styles.labelAuthor}>Author: {this.state.data['Author']}</Text>
-            <Text style={styles.labelAuthor}>Author: {this.state.data['Author']}</Text>
-            <Text style={styles.labelAuthor}>Author: {this.state.data['Author']}</Text>
-          </ScrollView>
-        </ScrollView>
-        {/* </SafeAreaView> */}
-        {/* </View> */}
-
-        <View>
-          <SafeAreaView style={styles.containerTwo}>
-            <View style={styles.separator}>
-            </View>
-            <Text style={styles.titleSubtitle}> Esperando nueva busqueda </Text>
-            <View style={styles.separator}>
-            </View>
-            <TextInput
-              style={styles.inputSearch}
-              placeholder="Ingrese el Anime que desea buscar"
-            />
-            <View style={styles.separator}>
-            </View>
-            <Button title="Buscar"
-              color="dodgerblue"
-              onPress={() => Alert.alert('El boton funciona')}
-            />
-          </SafeAreaView>
-        </View>
+        <Card style={styles.cardContainer}>
+          <Card.Title title="Valoracion" subtitle="★★★★★" />
+          <Card.Content>
+            {/* <Paragraph>Fairy Tail</Paragraph> */}
+          </Card.Content>
+          <Card.Cover source={{ uri: 'https://www.teahub.io/photos/full/11-111593_anime-fairy-tail-wallpapers-fairy-tail.png' }} />
+        </Card>
       </View>
-    );
-  }
-}
 
+      <View>
+        <Text>
+          <Api />
+        </Text>
+        <SafeAreaView style={styles.containerArea}>
+          <ScrollView style={styles.scrollView}>
+            <Card>
+              <Card.Content>
+                <Title>Fairy Tail</Title>
+                <Paragraph>En emision</Paragraph>
+                <Title>Temporadas</Title>
+                <Paragraph>3</Paragraph>
+                <Title>Sinapsis</Title>
+                <Paragraph>Fairy Tail cuenta la historia de un joven mago llamado Natsu
+                  en la búsqueda de su maestro y padre adoptivo Igneel, un dragón. ...
+                  El mundo de Fairy Tail gira alrededor de los magos: personas que utilizan
+                  distintos tipos de magia y que, además, realizan encargos a cambio de dinero,
+                  similar a un caza recompensas.</Paragraph>
+              </Card.Content>
+            </Card>
+          </ScrollView>
+        </SafeAreaView>
+      </View>
+
+      <View>
+        <TextInput style={styles.inputSearch}
+          mode="outlined"
+          label="Ingrese la serie que desea buscar"
+          placeholder="Type something"
+          right={<TextInput.Affix text="/100" />}
+        />
+        <Button style={styles.btnSearch} icon="" mode="contained" onPress={() => console.log('Pressed')}>
+          Buscar
+        </Button>
+      </View>
+
+
+    </View>
+
+  );
+}
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    opacity: 1,
-    backgroundColor: 'black',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginHorizontal: 0,
+    borderWidth: 0,
+    borderRadius: 2,
+    borderColor: "#CCC",
+    flexWrap: "nowrap",
+    backgroundColor: "white",
   },
-  title: {
-    textAlign: 'center',
-    color: 'yellowgreen',
-    marginTop: -55,
-    fontSize: 45,
-    fontWeight: "bold",
+  cardContainer: {
+    borderWidth: 2,
+    borderRadius: 2,
+    borderColor: "#CCC",
+    flexWrap: "nowrap",
+    backgroundColor: "white",
   },
-  titleSubtitle: {
-    fontSize: 27,
-    color: 'yellowgreen',
-    textAlign: 'center',
-  },
-  labelAuthor: {
-    marginTop: 10,
-    color: 'white',
-    fontSize: 25,
-    marginLeft: 10,
-    textAlign: 'center',
+  btnSearch: {
+
   },
   inputSearch: {
-    // margin: 12,
-    borderWidth: 4,
-    borderColor: 'dodgerblue',
-    padding: 35,
-    backgroundColor: 'white',
 
-    textAlign: 'center',
   },
-  separator: {
-    marginVertical: 5,
-    borderBottomColor: '#737373',
-    borderBottomWidth: StyleSheet.hairlineWidth,
-  },
-  imageDinamic: {
-    width: 350,
-    height: 350,
-    marginTop: -10,
-  },
+
   scrollView: {
-    backgroundColor: 'black',
-    marginHorizontal: 50,
-    marginBottom: 20,
-    marginTop: 10,
-    width: 350,
+    marginHorizontal: 20,
   },
-
+  text: {
+    fontSize: 42,
+  },
 });
