@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View, Platform, SafeAreaView, ScrollView } from 'react-native';
+import React, { Component, useState } from 'react';
+import { StyleSheet, Text, View, Platform, SafeAreaView, ScrollView, Alert } from 'react-native';
 import { Avatar, Button, Card, Title, Paragraph, Appbar, TextInput, Divider, TouchableOpacity } from 'react-native-paper';
 import MaterialCommunityIconsIcon from "react-native-vector-icons/MaterialCommunityIcons";
 import Api from './components/Api';
@@ -8,8 +8,21 @@ import Api from './components/Api';
 export default function App() {
   const LeftContent = props => <Avatar.Icon {...props} icon="assets/adaptative-icon.png" />
   const MORE_ICON = Platform.OS === 'ios' ? 'dots-horizontal' : 'dots-vertical'; //Option header
-  const [text, setText] = React.useState(''); //Input
+  //const [text, setText] = React.useState(''); //Input
+  const [ButtonSearch, setButtonSearch] = useState('');
 
+
+  var request = new XMLHttpRequest();
+
+  request.open('OBTENER', 'https://api.jikan.moe/v3/club/1/members');
+
+  request.onreadystatechange = function () {
+    if (this.readyState === 4) {
+      consola.log('Estado:', este.estado);
+      consola.log('Encabezados:', esto.getAllResponseHeaders());
+      consola.log('Body:', this.responseText);
+    }
+  };
 
 
   return (
@@ -34,9 +47,6 @@ export default function App() {
       </View>
 
       <View>
-        <Text>
-          <Api />
-        </Text>
         <SafeAreaView style={styles.containerArea}>
           <ScrollView style={styles.scrollView}>
             <Card>
@@ -58,13 +68,22 @@ export default function App() {
       </View>
 
       <View>
+        <Text> <Api /> </Text>
+      </View>
+
+      <View>
         <TextInput style={styles.inputSearch}
           mode="outlined"
           label="Ingrese la serie que desea buscar"
-          placeholder="Type something"
+          placeholder=""
+          //value="ButtonSearch"
           right={<TextInput.Affix text="/100" />}
+          onChangeText={val => setButtonSearch(val)}
         />
-        <Button style={styles.btnSearch} icon="" mode="contained" onPress={() => console.log('Pressed')}>
+        <Button style={styles.btnSearch}
+          icon=""
+          mode="contained"
+          onPress={() => { Alert.alert('Buscando ... Serie ' + ButtonSearch) }} >
           Buscar
         </Button>
       </View>
@@ -74,7 +93,6 @@ export default function App() {
 
   );
 }
-
 const styles = StyleSheet.create({
   container: {
     borderWidth: 0,
@@ -82,6 +100,8 @@ const styles = StyleSheet.create({
     borderColor: "#CCC",
     flexWrap: "nowrap",
     backgroundColor: "white",
+    flex: 1,
+    paddingTop: StatusBar.currentHeight,
   },
   cardContainer: {
     borderWidth: 2,
@@ -98,9 +118,11 @@ const styles = StyleSheet.create({
   },
 
   scrollView: {
-    marginHorizontal: 20,
+    marginHorizontal: 5,
+    backgroundColor: 'red', // No impacta?
   },
   text: {
     fontSize: 42,
   },
+
 });
