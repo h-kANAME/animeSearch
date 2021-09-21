@@ -1,95 +1,112 @@
 import { StatusBar } from 'expo-status-bar';
-import React, { Component, useState } from 'react';
-import { StyleSheet, Text, View, Platform, SafeAreaView, ScrollView, Alert } from 'react-native';
-import { Avatar, Button, Card, Title, Paragraph, Appbar, TextInput, Divider, TouchableOpacity } from 'react-native-paper';
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, Text, View, Platform, SafeAreaView, ScrollView, Alert, FlatList, ActivityIndicator, TouchableOpacity } from 'react-native';
+import { Avatar, Button, Card, Title, Paragraph, Appbar, TextInput, Divider } from 'react-native-paper';
 import MaterialCommunityIconsIcon from "react-native-vector-icons/MaterialCommunityIcons";
-import Api from './components/Api';
-
-export default function App() {
+//import Api from './components/Api';
+//React Navigation
+const App = () => {
   const LeftContent = props => <Avatar.Icon {...props} icon="assets/adaptative-icon.png" />
   const MORE_ICON = Platform.OS === 'ios' ? 'dots-horizontal' : 'dots-vertical'; //Option header
   //const [text, setText] = React.useState(''); //Input
   const [ButtonSearch, setButtonSearch] = useState('');
 
+  //Api Start
+  const [isLoading, setLoading] = useState(true);
+  const [data, setData] = useState([]);
+  const topUrl = "https://api.jikan.moe/v3/top/anime/1/bypopularity";
 
-  var request = new XMLHttpRequest();
+  useEffect(() => {
+    fetch(topUrl)
+      .then((response) => response.json())
+      .then((json) => {
+        setData(json.top);
 
-  request.open('OBTENER', 'https://api.jikan.moe/v3/club/1/members');
-
-  request.onreadystatechange = function () {
-    if (this.readyState === 4) {
-      consola.log('Estado:', este.estado);
-      consola.log('Encabezados:', esto.getAllResponseHeaders());
-      consola.log('Body:', this.responseText);
-    }
-  };
-
+      }) //Label to htl head
+      .catch((error) => alert(error))
+      .finally(setLoading(false));
+  }, []);
+  // console.log(data);
+  // //Api End
 
   return (
-
     <View style={styles.container}>
       {/* <StatusBar style="auto" /> */}
       <StatusBar backgroundColor="white" />
-      <View style={styles.containerInfo}>
-        <Appbar.Header>
-          <Appbar.Content title="Anime Search" subtitle={'Created by KYZ'} />
-          {/* <Appbar.Action icon="magnify" onPress={() => { }} /> */}
-          <Appbar.Action icon={MORE_ICON} onPress={() => { }} />
-        </Appbar.Header>
 
-        <Card style={styles.cardContainer}>
-          <Card.Title title="Valoracion" subtitle="★★★★★" />
-          <Card.Content>
-            {/* <Paragraph>Fairy Tail</Paragraph> */}
-          </Card.Content>
-          <Card.Cover source={{ uri: 'https://www.teahub.io/photos/full/11-111593_anime-fairy-tail-wallpapers-fairy-tail.png' }} />
-        </Card>
-      </View>
+      <SafeAreaView>
 
-      <View>
-        <SafeAreaView style={styles.containerArea}>
-          <ScrollView style={styles.scrollView}>
-            <Card>
-              <Card.Content>
-                <Title>Fairy Tail</Title>
-                <Paragraph>En emision</Paragraph>
-                <Title>Temporadas</Title>
-                <Paragraph>3</Paragraph>
-                <Title>Sinapsis</Title>
-                <Paragraph>Fairy Tail cuenta la historia de un joven mago llamado Natsu
-                  en la búsqueda de su maestro y padre adoptivo Igneel, un dragón. ...
-                  El mundo de Fairy Tail gira alrededor de los magos: personas que utilizan
-                  distintos tipos de magia y que, además, realizan encargos a cambio de dinero,
-                  similar a un caza recompensas.</Paragraph>
-              </Card.Content>
-            </Card>
-          </ScrollView>
-        </SafeAreaView>
-      </View>
+        <View style={styles.containerInfo}>
+          <Appbar.Header>
+            <Appbar.Content title="Anime Search" subtitle={'Created by KYZ'} />
+            {/* <Appbar.Action icon="magnify" onPress={() => { }} /> */}
+            <Appbar.Action icon={MORE_ICON} onPress={() => { }} />
+          </Appbar.Header>
+        </View>
 
-      <View>
-        <Text> <Api /> </Text>
-      </View>
+        {isLoading ? (
 
-      <View>
-        <TextInput style={styles.inputSearch}
-          mode="outlined"
-          label="Ingrese la serie que desea buscar"
-          placeholder=""
-          //value="ButtonSearch"
-          right={<TextInput.Affix text="/100" />}
-          onChangeText={val => setButtonSearch(val)}
-        />
-        <Button style={styles.btnSearch}
-          icon=""
-          mode="contained"
-          onPress={() => { Alert.alert('Buscando ... Serie ' + ButtonSearch) }} >
-          Buscar
-        </Button>
-      </View>
+          <ActivityIndicator />
+        ) : (
+          <Card style={styles.cardContainer}>
+            <FlatList
+              data={data}
+              keyExtractor={({ title }, index) => title}
+              renderItem={({ item }) => (
+                <SafeAreaView>
+                  <TouchableOpacity>
+                    <Card style={styles.cardContainer}>
+                      {/* <Card.Title title="Valoracion" subtitle="★★★★★" /> */}
+                      <Card.Content>
+                        <Paragraph style={styles.titleAnime}>{item.title}</Paragraph>
+                      </Card.Content>
+                      <Card.Cover source={{ uri: item.image_url }} />
+                    </Card>
 
+                    <View>
+                      <Card>
+                        <Card.Content>
+                          <Title>{item.title}</Title>
+                          <Title>Ranking N° {item.rank}</Title>
+                          <Paragraph>3</Paragraph>
+                          <Title>Sinapsis</Title>
+                          <Paragraph>Fairy Tail cuenta la historia de un joven mago llamado Natsu
+                            en la búsqueda de su maestro y padre adoptivo Igneel, un dragón. ...
+                            El mundo de Fairy Tail gira alrededor de los magos: personas que utilizan
+                            distintos tipos de magia y que, además, realizan encargos a cambio de dinero,
+                            similar a un caza recompensas.</Paragraph>
+                        </Card.Content>
+                      </Card>
+                    </View>
+                  </TouchableOpacity>
+                </SafeAreaView>
 
+              )}
+            />
+          </Card>
+        )}
+
+        <View>
+          <TextInput style={styles.inputSearch}
+            mode="outlined"
+            label="Ingrese la serie que desea buscar"
+            placeholder=""
+            //value="ButtonSearch"
+            right={<TextInput.Affix text="/100" />}
+            onChangeText={val => setButtonSearch(val)}
+          />
+          <Button style={styles.btnSearch}
+            icon=""
+            mode="contained"
+            onPress={() => { Alert.alert('Buscando ... Serie ' + ButtonSearch) }} >
+            Buscar
+          </Button>
+        </View>
+
+      </SafeAreaView>
     </View>
+
+
 
   );
 }
@@ -110,8 +127,9 @@ const styles = StyleSheet.create({
     flexWrap: "nowrap",
     backgroundColor: "white",
   },
-  btnSearch: {
-
+  titleAnime: {
+    marginTop: 10,
+    fontSize: 20,
   },
   inputSearch: {
 
@@ -126,3 +144,5 @@ const styles = StyleSheet.create({
   },
 
 });
+
+export default App;
