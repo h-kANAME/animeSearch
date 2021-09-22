@@ -32,13 +32,13 @@ const App = () => {
   return (
     <View style={styles.container}>
       {/* <StatusBar style="auto" /> */}
-      <StatusBar backgroundColor="white" />
+      <StatusBar backgroundColor="gainsboro" />
 
       <SafeAreaView>
 
-        <View style={styles.containerInfo}>
-          <Appbar.Header>
-            <Appbar.Content title="Anime Search" subtitle={'Created by KYZ'} />
+        <View>
+          <Appbar.Header style={styles.item}>
+            <Appbar.Content title="Anime Search" subtitle={'Created by KYZ'} subtitle={' by KYZ'} />
             {/* <Appbar.Action icon="magnify" onPress={() => { }} /> */}
             <Appbar.Action icon={MORE_ICON} onPress={() => { }} />
           </Appbar.Header>
@@ -53,31 +53,42 @@ const App = () => {
               data={data}
               keyExtractor={({ title }, index) => title}
               renderItem={({ item }) => (
-                <SafeAreaView>
+                <SafeAreaView style={styles.item}>
                   <TouchableOpacity>
-                    <Card style={styles.cardContainer}>
-                      {/* <Card.Title title="Valoracion" subtitle="★★★★★" /> */}
-                      <Card.Content>
-                        <Paragraph style={styles.titleAnime}>{item.title}</Paragraph>
-                      </Card.Content>
-                      <Card.Cover source={{ uri: item.image_url }} />
-                    </Card>
-
                     <View>
-                      <Card>
-                        <Card.Content>
-                          <Title>{item.title}</Title>
-                          <Title>Ranking N° {item.rank}</Title>
-                          <Paragraph>3</Paragraph>
-                          <Title>Sinapsis</Title>
-                          <Paragraph>Fairy Tail cuenta la historia de un joven mago llamado Natsu
+                      <Card style={styles.cardContainer}>
+
+                        <View>
+                          <Card>
+                            {/* <Card.Title title="Valoracion" subtitle="★★★★★" /> */}
+                            {/* <Card.Content> */}
+                            <Title style={styles.titleAnime}>{item.title}</Title>
+
+                            {/* </Card.Content> */}
+                            <Card.Cover style={styles.img} source={{ uri: item.image_url }} />
+                          </Card>
+                        </View>
+
+                        <View>
+                          <Card>
+                            <Card.Content>
+                              <Title style={styles.labelRanking}>Ranking N° {item.rank}</Title>
+                              <Paragraph style={styles.labelInfo}>Lanzmaiento: {item.start_date}</Paragraph>
+                              <Paragraph style={styles.labelInfo}>Episodios: {item.episodes}</Paragraph>
+                              <Paragraph style={styles.labelInfo}>Tipo: {item.type}</Paragraph>
+                              {/* <Title>Sinapsis</Title> */}
+                              {/* <Paragraph>Fairy Tail cuenta la historia de un joven mago llamado Natsu
                             en la búsqueda de su maestro y padre adoptivo Igneel, un dragón. ...
                             El mundo de Fairy Tail gira alrededor de los magos: personas que utilizan
                             distintos tipos de magia y que, además, realizan encargos a cambio de dinero,
-                            similar a un caza recompensas.</Paragraph>
-                        </Card.Content>
+                            similar a un caza recompensas.</Paragraph> */}
+                            </Card.Content>
+                          </Card>
+                        </View>
+
                       </Card>
                     </View>
+
                   </TouchableOpacity>
                 </SafeAreaView>
 
@@ -86,7 +97,7 @@ const App = () => {
           </Card>
         )}
 
-        <View>
+        <View style={styles.container}>
           <TextInput style={styles.inputSearch}
             mode="outlined"
             label="Ingrese la serie que desea buscar"
@@ -106,33 +117,57 @@ const App = () => {
       </SafeAreaView>
     </View>
 
-
-
   );
 }
 const styles = StyleSheet.create({
   container: {
     borderWidth: 0,
-    borderRadius: 2,
+    borderRadius: 1,
     borderColor: "#CCC",
     flexWrap: "nowrap",
-    backgroundColor: "white",
+    backgroundColor: "darkslateblue",
     flex: 1,
     paddingTop: StatusBar.currentHeight,
   },
+  containerInfo: {
+    // padding: 10,
+    // backgroundColor: "darkslateblue",
+    // borderWidth: 10,
+    // borderColor: "darkslateblue",
+  },
   cardContainer: {
-    borderWidth: 2,
-    borderRadius: 2,
-    borderColor: "#CCC",
+    borderWidth: 1,
+    paddingTop: 5,
+    paddingLeft: 1,
+    borderColor: "black",
     flexWrap: "nowrap",
     backgroundColor: "white",
   },
+  cardContainerInfo: {
+    borderColor: "black",
+    borderWidth: 1,
+  },
+  item: {
+    marginVertical: 4,
+    marginHorizontal: 8,
+  },
+
   titleAnime: {
     marginTop: 10,
+    margin: 2,
     fontSize: 20,
+    color: "black",
   },
   inputSearch: {
 
+  },
+  labelInfo: {
+    fontSize: 17,
+    color: "black",
+    //fontWeight: "bold",
+  },
+  labelRanking: {
+    color: "black",
   },
 
   scrollView: {
@@ -141,6 +176,11 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 42,
+  },
+  img: {
+    marginTop: 10,
+    width: 389,
+    height: 400,
   },
 
 });
