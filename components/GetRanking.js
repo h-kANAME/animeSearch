@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, FlatList, ActivityIndicator, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, FlatList, ActivityIndicator, Button } from 'react-native';
 import { Card, Title, Paragraph } from 'react-native-paper';
 
-const GetRanking = () => {
+const GetRanking = ({ navigation }) => {
 
     const [isLoading, setLoading] = useState(true);
     const [data, setData] = useState([]);
@@ -17,7 +17,6 @@ const GetRanking = () => {
             .catch((error) => alert(error))
             .finally(setLoading(false));
     }, []);
-    // console.log(data);
 
     return (
 
@@ -25,55 +24,54 @@ const GetRanking = () => {
             {isLoading ? (
                 <ActivityIndicator />
             ) : (
-                <Card style={styles.cardContainer}>
-                    <FlatList
-                        data={data}
-                        keyExtractor={({ title }, index) => title}
-                        renderItem={({ item }) => (
-
-                            <TouchableOpacity>
-                                <Card style={styles.item}>
-                                    <Card>
-                                        <Card.Content>
-                                            <Title style={styles.titleAnime}>{item.title}</Title>
-                                        </Card.Content>
-                                        <Card.Cover style={styles.img} source={{ uri: item.image_url }} />
-                                        <Card.Content>
-                                            <Title style={styles.labelRanking}>Ranking N° {item.rank}</Title>
-                                            <Paragraph style={styles.labelInfo}>Lanzmaiento: {item.start_date}</Paragraph>
-                                            <Paragraph style={styles.labelInfo}>Episodios: {item.episodes}</Paragraph>
-                                            <Paragraph style={styles.labelInfo}>Tipo: {item.type}</Paragraph>
-                                        </Card.Content>
-                                    </Card>
-                                </Card>
-                            </TouchableOpacity>
-                        )}
-                    />
-                </Card>
+                <FlatList
+                    data={data}
+                    keyExtractor={({ title }, index) => title}
+                    renderItem={({ item }) => (
+                        <Card style={styles.item}>
+                            <Card style={styles.cardContainer}>
+                                <Card.Content>
+                                    <Title style={styles.titleAnime}>{item.title}</Title>
+                                </Card.Content>
+                                <Card.Cover style={styles.img} source={{ uri: item.image_url }} />
+                                <Card.Content>
+                                    <Title style={styles.labelRanking}>Ranking N° {item.rank}</Title>
+                                    <Paragraph style={styles.labelInfo}>Lanzmaiento: {item.start_date}</Paragraph>
+                                    <Paragraph style={styles.labelInfo}>Episodios: {item.episodes}</Paragraph>
+                                    <Paragraph style={styles.labelInfo}>Tipo: {item.type}</Paragraph>
+                                 </Card.Content>
+                            </Card>
+                        </Card>
+                    )}
+                />
             )}
         </View>
     );
 }
 const styles = StyleSheet.create({
     container: {
-        borderWidth: 0,
-        borderRadius: 2,
+        width: '100%',
+        //alignContent: 'center',
+        //alignItems: 'center',
         borderColor: "#CCC",
-        flexWrap: "nowrap",
-        backgroundColor: "darkslateblue",
+        paddingTop: 7,
+        paddingBottom: 7,
     },
     cardContainer: {
-        // paddingTop: 5,
-        // paddingLeft: 0,
-        borderColor: "black",
-        flexWrap: "nowrap",
+        //width: '100%',
+        //paddingTop: 5,
+        //paddingLeft: 1,
+        //borderColor: "black",
+        //flexWrap: "nowrap",
         backgroundColor: "white",
+        borderRadius: 15,
     },
     item: {
         marginVertical: 4,
         marginHorizontal: 8,
     },
     img: {
+        borderRadius: 1,
         marginTop: 10,
         width: 395,
         height: 460,
@@ -90,8 +88,14 @@ const styles = StyleSheet.create({
         //fontWeight: "bold",
     },
     labelRanking: {
+        fontSize: 17,
         color: "black",
     },
+    buttonSinapsis: {
+        color:"#543358",
+        marginTop: 20,
+        padding: 20,
+    }
 });
 
 export default GetRanking;
