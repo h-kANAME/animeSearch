@@ -73,7 +73,8 @@ const styles = StyleSheet.create({
     img: {
         borderRadius: 1,
         marginTop: 10,
-        width: 395,
+        width: 344,
+       // paddingHorizontal: 10,
         height: 460,
     },
     titleAnime: {

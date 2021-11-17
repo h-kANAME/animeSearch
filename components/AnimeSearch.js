@@ -5,35 +5,23 @@ import { Card, Title, Paragraph } from 'react-native-paper';
 const AnimeSearch = () => {
 
     const [isLoading, setLoading] = useState(true);
-    const [data, setData] = useState('');
+    const [data, setData] = useState([]);
     const [search, setSearch] = useState(''); //Search
     let topUrl = `https://api.jikan.moe/v3/search/anime?q=${search}&page=1`;
 
-    // useEffect(() => {
-    //     fetch(topUrl)
-    //         .then((response) => response.json())
-    //         .then((json) => {
-    //             setData(json.results); //Label to htl head
-    //         })
-    //         .catch((error) => alert(error))
-    //         .finally(setLoading(false));
-    // }, []);
-
-    let updateSearch = async () => {
-        console.log('url: ' + topUrl)
-        alert(topUrl);
-        useEffect(() => {
-            fetch(topUrl)
-                .then((response) => response.json())
-                .then((json) => {
-                    setData(json.results);
-                })
-                .catch((error) => alert(error))
-                .finally(setLoading(false));
-        }, []);
+    let updateSearch = () => {
+        //console.log('url: ' + topUrl)
+        //alert(topUrl);
+        fetch(topUrl)
+            .then((response) => response.json())
+            .then((json) => {
+                setData(json.results);
+            })
+            .catch((error) => {
+                alert(error)
+            })
+            .finally(setLoading(false));
     }
-
-
 
     return (
 
@@ -101,7 +89,7 @@ const styles = StyleSheet.create({
     img: {
         borderRadius: 1,
         marginTop: 10,
-        width: 395,
+        width: 344,
         height: 460,
     },
     titleAnime: {
