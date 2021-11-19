@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, FlatList, ActivityIndicator, Button } from 'react-native';
+import { StyleSheet, View, FlatList, ActivityIndicator } from 'react-native';
 import { Card, Title, Paragraph } from 'react-native-paper';
 
 const GetRanking = ({ navigation }) => {
@@ -39,7 +39,7 @@ const GetRanking = ({ navigation }) => {
                                     <Paragraph style={styles.labelInfo}>Lanzmaiento: {item.start_date}</Paragraph>
                                     <Paragraph style={styles.labelInfo}>Episodios: {item.episodes}</Paragraph>
                                     <Paragraph style={styles.labelInfo}>Tipo: {item.type}</Paragraph>
-                                 </Card.Content>
+                                </Card.Content>
                             </Card>
                         </Card>
                     )}
@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
         borderRadius: 1,
         marginTop: 10,
         width: 344,
-       // paddingHorizontal: 10,
+        // paddingHorizontal: 10,
         height: 460,
     },
     titleAnime: {
@@ -93,7 +93,7 @@ const styles = StyleSheet.create({
         color: "black",
     },
     buttonSinapsis: {
-        color:"#543358",
+        color: "#543358",
         marginTop: 20,
         padding: 20,
     }

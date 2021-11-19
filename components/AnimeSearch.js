@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { SafeAreaView, StyleSheet, View, FlatList, ActivityIndicator, TextInput, Text, Button, TouchableOpacity } from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, View, FlatList, ActivityIndicator, TextInput, Text, TouchableOpacity } from 'react-native';
 import { Card, Title, Paragraph } from 'react-native-paper';
 
 const AnimeSearch = () => {
@@ -10,8 +10,6 @@ const AnimeSearch = () => {
     let topUrl = `https://api.jikan.moe/v3/search/anime?q=${search}&page=1`;
 
     let updateSearch = () => {
-        //console.log('url: ' + topUrl)
-        //alert(topUrl);
         fetch(topUrl)
             .then((response) => response.json())
             .then((json) => {
@@ -34,12 +32,7 @@ const AnimeSearch = () => {
             />
 
             <TouchableOpacity
-
-                //  this.updateSearch()
-                //  console.log('Buscador: ' + search) }
                 onPress={updateSearch}
-                //   onClick={() => stAnime}
-
                 style={{ backgroundColor: '#543358' }}>
 
                 <Text style={{ fontSize: 20, color: 'white', textAlign: 'center', fontWeight: "bold", }}>Buscar</Text>
